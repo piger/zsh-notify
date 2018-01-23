@@ -1,7 +1,9 @@
 # zsh-notify
+zmodload zsh/regex
 
 # notify if commands was running for more than TIME_THRESHOLD seconds:
-TIME_THRESHOLD=1
+TIME_THRESHOLD=60
+RE_SKIP_COMMANDS="^(ssh|vim)"
 
 notify() {
     terminal-notifier -title "$1" -subtitle "$2" -message "$3"
@@ -42,8 +44,10 @@ notify-command-complete() {
 }
 
 store-command-stats() {
-    _notify_last_command=${(qqq)1}
-    _notify_start_time=$(date +%s)
+    if [[ ! $1 -regex-match $RE_SKIP_COMMANDS ]]; then
+        _notify_last_command=${(qqq)1}
+        _notify_start_time=$(date +%s)
+    fi
 }
 
 autoload -Uz add-zsh-hook
