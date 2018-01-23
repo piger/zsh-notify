@@ -6,18 +6,16 @@ TIME_THRESHOLD=60
 RE_SKIP_COMMANDS="^(ssh|vim)"
 
 notify() {
-    terminal-notifier -title "$1" -subtitle "$2" -message "$3"
+    terminal-notifier -title "⌛ zsh long running job"  -subtitle "$1" -message "$2"
 }
 
 notify-success() {
-    notify "⌛ zsh long running job" \
-           "execution finished" \
+    notify "execution finished" \
            "Command $1 succeded after $2 seconds"
 }
 
 notify-error() {
-    notify "⌛ zsh long running job" \
-           "⚠ execution finished" \
+    notify "⚠ execution finished" \
            "Command $1 failed after $2 seconds: $3"
 }
 
