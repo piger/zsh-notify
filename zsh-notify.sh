@@ -3,7 +3,7 @@ zmodload zsh/regex
 
 # notify if commands was running for more than TIME_THRESHOLD seconds:
 TIME_THRESHOLD=60
-RE_SKIP_COMMANDS="^(ssh|vim)"
+RE_SKIP_COMMANDS="^(ssh|vim|tmux|tig)"
 
 notify() {
     terminal-notifier -title "⌛ zsh long running job"  -subtitle "$1" -message "$2"
