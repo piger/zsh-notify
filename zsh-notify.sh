@@ -3,7 +3,7 @@ zmodload zsh/regex
 
 # notify if commands was running for more than TIME_THRESHOLD seconds:
 TIME_THRESHOLD=60
-RE_SKIP_COMMANDS="^(ssh|vim|tmux|tig)"
+RE_SKIP_COMMANDS="^[^ ]*(ssh|vim|tmux|tig|man)"
 TERMINAL_BUNDLE="com.googlecode.iterm2"
 SCRIPT_DIR="$(dirname $0:A)"
 
