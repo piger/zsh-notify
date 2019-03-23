@@ -10,7 +10,13 @@ We live in frantic days.
 Source `zsh-notify.zsh` as soon as early as possible in your `.zshrc` file, before any other script
 or function that manipulates the `precmd` array.
 
-    source /path/to/zsh-notify/zsh.notify.sh
+    source /path/to/zsh-notify/zsh.notify.zsh
+
+### Antigen
+
+Add the following line before any other bundle in your `.zshrc`:
+
+    antigen bundle piger/zsh-notify
 
 ## Credits
 
