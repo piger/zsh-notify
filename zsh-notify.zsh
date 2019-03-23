@@ -2,29 +2,29 @@
 zmodload zsh/regex
 
 # notify if commands was running for more than TIME_THRESHOLD seconds:
-TIME_THRESHOLD=60
-RE_SKIP_COMMANDS="^[^ ]*(ssh|vim|tmux|tig|man)"
-TERMINAL_BUNDLE="com.googlecode.iterm2"
-SCRIPT_DIR="$(dirname $0:A)"
+typeset -g _ZSH_NOTIFY_TIME_THRESHOLD=60
+typeset -g _ZSH_NOTIFY_RE_SKIP_COMMANDS="^[^ ]*(ssh|vim|tmux|tig|man)"
+typeset -g _ZSH_NOTIFY_TERMINAL_BUNDLE="com.googlecode.iterm2"
+typeset -g _ZSH_NOTIFY_SCRIPT_DIR="$(dirname $0:A)"
 
 
-notify() {
+_zsh_notify_popup() {
     # $1 subtitle of the notification (the command that was executed)
     # $2 the message for the notification
     # $3 the icon for the notification popup
-    terminal-notifier -title "Long running command" -subtitle "$1" -message "$2" -activate "$TERMINAL_BUNDLE" -sound default \
-                      -appIcon "${SCRIPT_DIR}/$3"
+    terminal-notifier -title "Long running command" -subtitle "$1" -message "$2" -activate "$_ZSH_NOTIFY_TERMINAL_BUNDLE" -sound default \
+                      -appIcon "${_ZSH_NOTIFY_SCRIPT_DIR}/$3"
 }
 
-notify-success() {
-    notify "$1" "The command succeded after $2 seconds" success.jpg
+_zsh_notify_success() {
+    _zsh_notify_popup "$1" "The command succeded after $2 seconds" success.jpg
 }
 
-notify-error() {
-    notify "$1" "The command failed after $2 seconds with code: $3" error.png
+_zsh_notify_error() {
+    _zsh_notify_popup "$1" "The command failed after $2 seconds with code: $3" error.png
 }
 
-notify-command-complete() {
+_zsh_notify_command_complete() {
     # we must catch $? as soon as possible.
     local last_status=$?
 
@@ -38,11 +38,11 @@ notify-command-complete() {
 
     timediff=$(( now - _notify_start_time ))
 
-    if (( timediff > TIME_THRESHOLD )); then
+    if (( timediff > _ZSH_NOTIFY_TIME_THRESHOLD )); then
         if [[ $last_status = 0 ]]; then
-            notify-success $_notify_last_command $timediff
+            _zsh_notify_success $_notify_last_command $timediff
         else
-            notify-error $_notify_last_command $timediff $last_status
+            _zsh_notify_error $_notify_last_command $timediff $last_status
         fi
     fi
 
@@ -50,8 +50,8 @@ notify-command-complete() {
     unset _notify_start_time
 }
 
-store-command-stats() {
-    if [[ $1 -regex-match $RE_SKIP_COMMANDS ]]; then
+_zsh_notify_store_command_stats() {
+    if [[ $1 -regex-match $_ZSH_NOTIFY_RE_SKIP_COMMANDS ]]; then
         return
     fi
 
@@ -63,5 +63,5 @@ store-command-stats() {
 # it must be loaded before any other script or function that adds a precmd hook.
 # Only the first precmd hook access the original $?.
 autoload -Uz add-zsh-hook
-add-zsh-hook preexec store-command-stats
-add-zsh-hook precmd notify-command-complete
+add-zsh-hook preexec _zsh_notify_store_command_stats
+add-zsh-hook precmd _zsh_notify_command_complete
