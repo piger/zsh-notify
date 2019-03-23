@@ -5,4 +5,13 @@ running.
 
 We live in frantic days.
 
-<div>Icons made by <a href="https://www.freepik.com/" title="Freepik">Freepik</a> from <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a> is licensed by <a href="http://creativecommons.org/licenses/by/3.0/" title="Creative Commons BY 3.0" target="_blank">CC 3.0 BY</a></div>
+## Usage
+
+Source `zsh-notify.zsh` as soon as early as possible in your `.zshrc` file, before any other script
+or function that manipulates the `precmd` array.
+
+    source /path/to/zsh-notify/zsh.notify.sh
+
+## Credits
+
+Icons made by [Freepik](https://www.freepik.com/) from [Flaticon](https://www.flaticon.com/) is licensed by [CC 3.0 BY](http://creativecommons.org/licenses/by/3.0/).
