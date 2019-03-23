@@ -12,6 +12,10 @@ or function that manipulates the `precmd` array.
 
     source /path/to/zsh-notify/zsh.notify.zsh
 
+You also need [terminal-notifier](https://github.com/julienXX/terminal-notifier):
+
+    brew install terminal-notifier
+
 ### Antigen
 
 Add the following line before any other bundle in your `.zshrc`:
