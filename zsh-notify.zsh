@@ -32,22 +32,22 @@ _zsh_notify_command_complete() {
     local timediff
     now=$(date +%s)
 
-    if [[ $_notify_start_time = "" ]]; then
+    if [[ $_zsh_notify_start_time = "" ]]; then
         return
     fi
 
-    timediff=$(( now - _notify_start_time ))
+    timediff=$(( now - _zsh_notify_start_time ))
 
     if (( timediff > _ZSH_NOTIFY_TIME_THRESHOLD )); then
         if [[ $last_status = 0 ]]; then
-            _zsh_notify_success $_notify_last_command $timediff
+            _zsh_notify_success $_zsh_notify_last_command $timediff
         else
-            _zsh_notify_error $_notify_last_command $timediff $last_status
+            _zsh_notify_error $_zsh_notify_last_command $timediff $last_status
         fi
     fi
 
-    unset _notify_last_command
-    unset _notify_start_time
+    unset _zsh_notify_last_command
+    unset _zsh_notify_start_time
 }
 
 _zsh_notify_store_command_stats() {
@@ -55,8 +55,8 @@ _zsh_notify_store_command_stats() {
         return
     fi
 
-    _notify_last_command="$1"
-    _notify_start_time=$(date +%s)
+    _zsh_notify_last_command="$1"
+    _zsh_notify_start_time=$(date +%s)
 }
 
 # For this script to be able to get the exit status of the last executed command ($?)
